@@ -6,7 +6,7 @@
 /*   By: aomelian <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/30 13:49:19 by aomelian          #+#    #+#             */
-/*   Updated: 2018/04/02 15:54:07 by aomelian         ###   ########.fr       */
+/*   Updated: 2018/10/14 22:56:07 by omaiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,10 @@ void				ft_strrev(char *str);
 void				ft_free_tab(char **tab);
 void				ft_ptr_swap(void **p1, void **p2);
 void				ft_puterr(int n, char *str, ...);
-char                *find_env(char *name);
-char	            **tab_extern(char **tab, char *value);
-char                **tab_cpy(char **tab);
-char	            *path_join(char *p1, char *p2);
-void	            free_tab(char **tab);
-size_t	            ft_tablen(char **tab);
+char				*find_env(char *name);
+char				**tab_extern(char **tab, char *value);
+char				**tab_cpy(char **tab);
+char				*path_join(char *p1, char *p2);
+void				free_tab(char **tab);
+size_t				ft_tablen(char **tab);
 #endif
