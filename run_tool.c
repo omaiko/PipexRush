@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   run_tool.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: omaiko <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/10/14 16:06:47 by omaiko            #+#    #+#             */
+/*   Updated: 2018/10/14 17:34:36 by omaiko           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
+#include "pipex.h"
 
 static char	*find_env2(char *name, char **env)
 {
@@ -18,35 +31,32 @@ static char	*find_env2(char *name, char **env)
 
 static char	*find_sys_tool(char *t_name, char **env)
 {
-    char	**paths;
-    char	**paths_cpy;
-    char	*destinations;
-    char	*full_path;
+	char	**paths;
+	char	**paths_cpy;
+	char	*destinations;
+	char	*full_path;
 
-    full_path = NULL;
-    if (!t_name || (destinations = find_env2("PATH", env)) == NULL)
-        return (NULL);
-    if ((paths = ft_strsplit(destinations, ':')) == NULL)
-        return (NULL);
-    if (*(paths_cpy = paths) == NULL && !access(t_name, X_OK))
-        full_path = path_join(".", t_name);
-    while (*paths)
-    {
-        full_path = path_join(*(paths++), t_name);
-        if (access(full_path, F_OK) == 0)
-            break ;
-        free(full_path);
-        full_path = NULL;
-    }
-    free_tab(paths_cpy);
-    return (full_path);
+	full_path = NULL;
+	if (!t_name || (destinations = find_env2("PATH", env)) == NULL)
+		return (NULL);
+	if ((paths = ft_strsplit(destinations, ':')) == NULL)
+		return (NULL);
+	if (*(paths_cpy = paths) == NULL && !access(t_name, X_OK))
+		full_path = path_join(".", t_name);
+	while (*paths)
+	{
+		full_path = path_join(*(paths++), t_name);
+		if (access(full_path, F_OK) == 0)
+			break ;
+		free(full_path);
+		full_path = NULL;
+	}
+	ft_free_tab(paths_cpy);
+	return (full_path);
 }
 
 static int	execute_tool(char *tool_path, char *argv[], char *env[])
 {
-	int	status;
-
-
 	if (execve(tool_path, argv, env) == -1)
 		ft_puterr(1, "minishell: failed to run proccess\n");
 	return (-1);

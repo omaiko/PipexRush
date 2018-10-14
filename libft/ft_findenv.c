@@ -6,7 +6,7 @@
 /*   By: aomelian <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 15:03:48 by aomelian          #+#    #+#             */
-/*   Updated: 2018/06/15 15:03:53 by aomelian         ###   ########.fr       */
+/*   Updated: 2018/10/14 16:15:36 by omaiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 
 char	*find_env(char *name)
 {
-	size_t      len;
-	char	    *value;
-	char	    **p;
-	extern char **environ;
+	size_t		len;
+	char		*value;
+	char		**p;
+	extern char	**environ;
 
 	len = ft_strlen(name);
 	p = environ;

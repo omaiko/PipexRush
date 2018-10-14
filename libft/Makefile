@@ -72,18 +72,21 @@ SRC = $(SRC_PATH)ft_memset.c \
 OBJ = $(SRC:$(SRC_PATH)%.c=%.o)
 
 ./%.o: %.c
-	$(CC) $(FLAGS) -c $< -o $@ $(OPTIONS)
+	@$(CC) $(FLAGS) -c $< -o $@ $(OPTIONS)
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	ar -rc $(NAME) $(OBJ)
-	ranlib $(NAME)
+	@ar -rc $(NAME) $(OBJ)
+	@ranlib $(NAME)
+	@echo "Compiled"
 
 clean:
-	rm -f $(OBJ)
+	@rm -f $(OBJ)
+	@echo "OK"
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
+	@echo "OK"
 
 re: fclean $(NAME)
