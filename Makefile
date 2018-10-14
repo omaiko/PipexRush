@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 NAME = pipex
-SRC = main.c
+SRC = main.c run_tool.c
 HEADER = pipex.h
 OBJ = $(SRC:.c=.o)
 CC = gcc
@@ -23,19 +23,21 @@ DEL = /bin/rm -f
 all: $(NAME)
 
 $(NAME):
-		@echo "\033[36mBuilding: $(NAME)\033[0m"
-		$(CC) $(FLAGS) -Llibft -lft -Ilibft $(SRC) -o $(NAME)
-		@echo "\033[32mCompiled successfully :)\033[0m"
+		#@echo "\033[36mBuilding: $(NAME)\033[0m"
+		make -C libft
+		$(CC) $(FLAGS) -Ilibft/includes $(SRC) libft/libft.a -o $(NAME)
 
 clean:
-		@$(DEL) $(OBJ)
-		@echo "\033[31mObjects for $(NAME) deleted\033[0m"
+		make -C libft clean
+		$(DEL) $(OBJ)
+		#@echo "\033[31mObjects for $(NAME) deleted\033[0m"
 
 fclean: clean
-		@$(DEL) $(NAME)
-		@echo "\033[31mFile $(NAME) deleted\033[0m"
+		make -C libft fclean
+		$(DEL) $(NAME)
+		#@echo "\033[31mFile $(NAME) deleted\033[0m"
 
 norm:
-		@norminette *.?
+		#@norminette *.?
 
 re: fclean all

@@ -1,8 +1,10 @@
 #include "pipex.h"
+#include "errno.h"
 
-void tipa_hendlim(void)
+void tipa_hendlim(int a)
 {
-
+	printf("Something gone wrong: %d\n", a);
+	printf("Error: %s\n", strerror(errno));
 }
 
 void free_tab(char **str_tab)
@@ -21,6 +23,7 @@ void free_tab(char **str_tab)
 	}
 	free(tmp_tab);
 }
+
 char	**g_env;
 
 int		open_file(char *path)
@@ -28,7 +31,7 @@ int		open_file(char *path)
 	int	fd;
 
 	if ((fd = open(path, O_RDWR)) < 0)
-			tipa_hendlim();
+			tipa_hendlim(0);
 	return (fd);
 }
 
@@ -43,17 +46,16 @@ int		run_cmd_1(char **cmd_splitted, int *pipefd, char *file1_path)
 		;
 	else if (pid == 0)
 	{
-		printf(">>>> %s run cmd write: %s\n", file1_path, cmd_splitted[0]);
+		// printf(">>>> %s run cmd write: %s\n", file1_path, cmd_splitted[0]);
 		int	fd = open(file1_path, O_RDONLY, 0);
 		dup2(fd, STDIN_FILENO);
 		dup2(pipefd[1], STDOUT_FILENO);
 		//close(pipefd[1]);
 		//close(pipefd[0]);
-		if ((execve(cmd_splitted[0], cmd_splitted + 1, g_env)) < 0)
-			tipa_hendlim();
+		try_run_tool(*cmd_splitted, cmd_splitted + 1, g_env);
 	}
 	else if (pid < 0)
-		tipa_hendlim();
+		tipa_hendlim(2);
 }
 
 void	run_cmd_2(char **cmd_splitted, int *pipefd, char *file2_path)
@@ -67,33 +69,32 @@ void	run_cmd_2(char **cmd_splitted, int *pipefd, char *file2_path)
 		;
 	else if (pid == 0)
 	{
-		int	fd = open(file2_path, O_CREAT | O_RDWR, 0777);
+		int	fd = open(file2_path, O_CREAT | O_RDWR | O_TRUNC, 0777);
 		dup2(fd, STDOUT_FILENO);
 		dup2(pipefd[0], STDIN_FILENO);
 		close(pipefd[1]);
-        // close(pipefd[1]);          /* Close unused write end */
-        // while (read(pipefd[0], &buf, 1) > 0)
-        //     write(STDOUT_FILENO, &buf, 1);
-        // write(STDOUT_FILENO, "\n", 1);
-        // close(pipefd[0]);
-		if ((execve(cmd_splitted[0], cmd_splitted + 1, g_env)) < 0)
-			tipa_hendlim();
+		try_run_tool(*cmd_splitted, cmd_splitted + 1, g_env);
+//		if ((execve(cmd_splitted[0], cmd_splitted + 1, g_env)) < 0)
+//		{
+//			open("sucharaBABAH", O_CREAT);
+//			tipa_hendlim(3);
+//		}
 	}
 	else if (pid < 0)
-		tipa_hendlim();
+		tipa_hendlim(4);
 }
 
 void	pipex(char **list)
 {
 	int	fd_file_1;
 	int	fd_file_2;
-    int pipefd[2];
+	int	pipefd[2];
 
 
 	if (pipe(pipefd) == -1) // pipefd[1] -> pipefd[0]
-		tipa_hendlim();
+		tipa_hendlim(5);
 
-	printf("pipe(): %d\n", pipefd[0]);
+	printf("pipe(): %d %d\n", pipefd[0], pipefd[1]);
 	char *tmp_file1 = *(list++);
 	char **cmd_splitted1 = ft_strsplit(*(list++), ' ');
 	//	free_tab(cmd_splitted);
@@ -101,8 +102,6 @@ void	pipex(char **list)
 	char **cmd_splitted2 = ft_strsplit(*(list++), ' ');
 	char *tmp_file2 = *list;
 	printf("file1_path: %s file2_path: %s\n", tmp_file1, tmp_file2);
-
-
 
 
 	run_cmd_2(cmd_splitted2, pipefd, tmp_file2);
