@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: omaiko <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/10/14 22:50:47 by omaiko            #+#    #+#             */
+/*   Updated: 2018/10/14 22:52:00 by omaiko           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 #include "errno.h"
 
@@ -66,7 +78,6 @@ void	pipex(int argc, char **argv)
 	int		fd_tmp;
 	char	**cmd;
 
-	
 	((pipe(pipefd) == -1) ? exit(1) : 0);
 	fd_tmp = pipefd[1];
 	outfile_reddirection(argc, argv, pipefd);

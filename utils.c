@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: omaiko <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/10/14 22:50:37 by omaiko            #+#    #+#             */
+/*   Updated: 2018/10/14 22:51:46 by omaiko           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
 void	fexit(char *name)
@@ -6,7 +18,7 @@ void	fexit(char *name)
 	exit(1);
 }
 
-int	check_access(char *path, unsigned mode)
+int		check_access(char *path, unsigned mode)
 {
 	if (mode == 0 && access(path, F_OK) == -1)
 	{
