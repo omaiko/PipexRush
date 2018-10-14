@@ -6,19 +6,12 @@
 /*   By: omaiko <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/14 15:58:18 by omaiko            #+#    #+#             */
-/*   Updated: 2018/10/14 17:42:01 by omaiko           ###   ########.fr       */
+/*   Updated: 2018/10/14 17:50:22 by omaiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include "errno.h"
-
-void	tipa_hendlim(void)
-{
-	ft_putstr_fd("Some text\n", 1);
-	//printf("Something gone wrong: %d\n", a);
-	//printf("Error: %s\n", strerror(errno));
-}
 
 int		ft_check_access(char *path)
 {
@@ -34,15 +27,6 @@ int		ft_check_access(char *path)
 }
 
 char	**g_env;
-
-int		open_file(char *path)
-{
-	int	fd;
-
-	if ((fd = open(path, O_RDWR)) < 0)
-		tipa_hendlim();
-	return (fd);
-}
 
 void	run_cmd_1(char **cmd_splitted, int *pipefd, char *file1_path)
 {
